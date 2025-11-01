@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-2">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Голосовой помощник</title>
+    <title>Джарвис - Голосовой помощник</title>
     <style>
         * {
             margin: 0;
@@ -13,150 +13,299 @@
         }
         
         body {
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            color: #333;
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a1a4a 50%, #0c0c2e 100%);
+            color: #e0e0ff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
+            overflow-x: hidden;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
+            background: rgba(10, 10, 40, 0.8);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 40px rgba(0, 150, 255, 0.3);
             overflow: hidden;
             margin-top: 20px;
+            border: 1px solid rgba(0, 150, 255, 0.2);
+            position: relative;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0096ff, transparent);
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         header {
-            background: linear-gradient(to right, #4a6cf7, #6a11cb);
-            color: white;
-            padding: 25px;
+            background: linear-gradient(to right, #001133, #003366);
+            color: #e0f7ff;
+            padding: 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00aaff, #00ffaa, #00aaff, transparent);
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 150, 255, 0.7);
+            letter-spacing: 2px;
+            font-weight: 300;
         }
         
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.9;
+            color: #a0e0ff;
+        }
+        
+        .jarvis-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 200, 255, 0.8);
         }
         
         .assistant-container {
-            padding: 25px;
+            padding: 30px;
         }
         
-        .chat-area {
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
+        .status-indicator {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            color: #80d0ff;
+            min-height: 30px;
+            padding: 10px;
+            background: rgba(0, 40, 80, 0.3);
             border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
+            border: 1px solid rgba(0, 150, 255, 0.2);
         }
         
-        .message {
-            margin-bottom: 15px;
-            padding: 12px 15px;
-            border-radius: 18px;
-            max-width: 80%;
-            line-height: 1.4;
-        }
-        
-        .user-message {
-            background-color: #e3f2fd;
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .assistant-message {
-            background-color: #f0f4ff;
-            margin-right: auto;
-            border-bottom-left-radius: 5px;
-        }
-        
-        .input-area {
+        .voice-controls {
             display: flex;
-            gap: 10px;
-        }
-        
-        input {
-            flex: 1;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-        
-        input:focus {
-            border-color: #6a11cb;
-            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
-        }
-        
-        button {
-            background: linear-gradient(to right, #4a6cf7, #6a11cb);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 0 25px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
         .voice-btn {
-            background: linear-gradient(to right, #ff7eb3, #ff758c);
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #003366, #001122);
+            border: 2px solid #0096ff;
+            color: #e0f7ff;
+            font-size: 1.8rem;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 50px;
-            padding: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .voice-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(transparent, #00aaff, transparent 30%);
+            animation: rotate 3s linear infinite;
+        }
+        
+        .voice-btn::after {
+            content: '';
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #002244, #001122);
+        }
+        
+        .voice-btn span {
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.8);
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .voice-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 200, 255, 0.7);
         }
         
         .voice-btn.listening {
+            background: radial-gradient(circle, #004477, #002244);
+            box-shadow: 0 0 50px rgba(0, 200, 255, 0.8);
             animation: pulse 1.5s infinite;
         }
         
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 117, 140, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0); }
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 150, 255, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(0, 200, 255, 0.8); }
+            100% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 150, 255, 0.5); }
         }
         
-        .controls {
+        .chat-area {
+            height: 280px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            background: rgba(5, 15, 35, 0.6);
+            scrollbar-width: thin;
+            scrollbar-color: #0096ff #001133;
+        }
+        
+        .chat-area::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .chat-area::-webkit-scrollbar-track {
+            background: #001133;
+            border-radius: 10px;
+        }
+        
+        .chat-area::-webkit-scrollbar-thumb {
+            background: #0096ff;
+            border-radius: 10px;
+        }
+        
+        .message {
+            margin-bottom: 18px;
+            padding: 15px 20px;
+            border-radius: 18px;
+            max-width: 85%;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background: linear-gradient(135deg, #003366, #004488);
+            color: #e0f7ff;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .assistant-message {
+            background: linear-gradient(135deg, #002244, #003366);
+            color: #c0e0ff;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(0, 150, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .assistant-message::before {
+            content: 'JARVIS:';
+            display: block;
+            font-size: 0.8rem;
+            color: #00aaff;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .input-area {
             display: flex;
-            justify-content: space-between;
+            gap: 12px;
             margin-top: 20px;
-            gap: 10px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(10, 25, 50, 0.7);
+            color: #e0f7ff;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            border-color: #0096ff;
+            box-shadow: 0 0 0 2px rgba(0, 150, 255, 0.2);
+        }
+        
+        input::placeholder {
+            color: #80a0c0;
+        }
+        
+        button {
+            background: linear-gradient(to right, #004488, #0066aa);
+            color: #e0f7ff;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+        }
+        
+        button:hover {
+            background: linear-gradient(to right, #0055aa, #0077cc);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .info-section {
             margin-top: 30px;
-            padding: 20px;
-            background-color: white;
+            padding: 25px;
+            background: rgba(10, 20, 40, 0.8);
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 150, 255, 0.2);
         }
         
         .info-section h2 {
-            color: #4a6cf7;
-            margin-bottom: 15px;
+            color: #00aaff;
+            margin-bottom: 20px;
             text-align: center;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
         }
         
         .qa-list {
@@ -166,37 +315,51 @@
         }
         
         .qa-item {
-            background-color: #f0f4ff;
+            background: rgba(0, 30, 60, 0.5);
+            color: #c0e0ff;
             padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #6a11cb;
+            border-radius: 12px;
+            border-left: 4px solid #0096ff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         
         .question {
             font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #80d0ff;
         }
         
         .answer {
-            color: #555;
+            opacity: 0.9;
+            font-style: italic;
         }
         
         footer {
             margin-top: 30px;
             text-align: center;
-            color: white;
-            font-size: 0.9rem;
-            opacity: 0.8;
+            color: #80c0ff;
+            font-size: 1rem;
+            opacity: 0.9;
         }
         
         @media (max-width: 600px) {
             .container {
-                border-radius: 10px;
+                border-radius: 15px;
             }
             
             h1 {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
+            }
+            
+            .voice-btn {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .voice-btn::after {
+                width: 110px;
+                height: 110px;
             }
             
             .qa-list {
@@ -208,87 +371,100 @@
 <body>
     <div class="container">
         <header>
+            <div class="jarvis-logo">J.A.R.V.I.S.</div>
             <h1>Голосовой помощник</h1>
-            <p class="subtitle">Задавайте вопросы голосом или текстом</p>
+            <p class="subtitle">Just A Rather Very Intelligent System</p>
         </header>
         
         <div class="assistant-container">
+            <div class="status-indicator" id="statusIndicator">
+                Система активирована. Все системы функционируют нормально.
+            </div>
+            
+            <div class="voice-controls">
+                <button class="voice-btn" id="voiceBtn">
+                    <span id="micIcon">🎤</span>
+                </button>
+                <div id="voiceStatus">Голосовая активация отключена</div>
+            </div>
+            
             <div class="chat-area" id="chatArea">
                 <div class="message assistant-message">
-                    Привет! Я ваш голосовой помощник. Задайте мне вопрос, и я постараюсь на него ответить.
+                    Добрый день, сэр. Я Джарвис, ваш личный помощник. Чем могу быть полезен?
                 </div>
             </div>
             
             <div class="input-area">
-                <input type="text" id="userInput" placeholder="Введите ваш вопрос...">
+                <input type="text" id="userInput" placeholder="Введите ваш запрос...">
                 <button id="sendBtn">Отправить</button>
-                <button class="voice-btn" id="voiceBtn">🎤</button>
-            </div>
-            
-            <div class="controls">
-                <button id="clearBtn">Очистить чат</button>
-                <button id="helpBtn">Помощь</button>
             </div>
         </div>
     </div>
     
     <div class="info-section">
-        <h2>Доступные вопросы и ответы</h2>
+        <h2>Доступные команды</h2>
         <div class="qa-list" id="qaList">
-            <!-- Вопросы и ответы будут добавлены через JavaScript -->
+            <!-- Команды будут добавлены через JavaScript -->
         </div>
     </div>
     
     <footer>
-        <p>Голосовой помощник &copy; 2023</p>
+        <p>J.A.R.V.I.S. - Just A Rather Very Intelligent System &copy; 2024</p>
     </footer>
 
     <script>
-        // БАЗА ЗНАНИЙ: ВОПРОСЫ И ОТВЕТЫ
-        // Вы можете добавлять, изменять или удалять вопросы и ответы здесь
+        // БАЗА ЗНАНИЙ ДЖАРВИСА
         const knowledgeBase = [
             {
-                question: "привет",
-                answer: "Здравствуйте! Чем могу вам помочь?"
+                question: "джарвис ты здесь",
+                answer: "К вашим услугам, сэр."
             },
             {
-                question: "как тебя зовут",
-                answer: "Я ваш голосовой помощник. Вы можете дать мне имя, если хотите!"
+                question: "джарвис как дела",
+                answer: "Все системы функционируют в оптимальном режиме, сэр. Благодарю за проявленный интерес."
             },
             {
-                question: "сколько времени",
+                question: "джарвис сколько времени",
                 answer: function() {
                     const now = new Date();
-                    return `Сейчас ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                    return `Текущее время: ${now.getHours()} часов ${now.getMinutes()} минут, сэр.`;
                 }
             },
             {
-                question: "какая сегодня дата",
+                question: "джарвис какая сегодня дата",
                 answer: function() {
                     const now = new Date();
-                    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-                    return `Сегодня ${now.toLocaleDateString('ru-RU', options)}`;
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    return `Сегодня ${now.toLocaleDateString('ru-RU', options)}, сэр.`;
                 }
             },
             {
-                question: "джарвис ты здесь?",
-                answer: "к вашим услугам сэр"
+                question: "джарвис что ты умеешь",
+                answer: "Я могу предоставить информацию о времени, дате, погоде, управлять системами вашего дома, осуществлять поиск в базе данных и многое другое. Что конкретно вас интересует, сэр?"
             },
             {
-                question: "расскажи о погоде",
-                answer: "К сожалению, у меня нет доступа к актуальным данным о погоде. Но выглянув в окно, я вижу, что сегодня отличный день!"
+                question: "джарвис запусти протокол",
+                answer: "Какой протокол вы хотите активировать, сэр?"
             },
             {
-                question: "как дела",
-                answer: "У меня всё отлично! Готов помочь вам с любыми вопросами."
+                question: "джарвис статус систем",
+                answer: "Все основные системы функционируют в штатном режиме. Запас энергии на оптимальном уровне. Угроз не обнаружено."
             },
             {
-                question: "спасибо",
-                answer: "Пожалуйста! Обращайтесь, если понадобится помощь."
+                question: "джарвис спасибо",
+                answer: "Всегда к вашим услугам, сэр."
             },
             {
-                question: "пока",
-                answer: "До свидания! Буду рад помочь вам снова."
+                question: "джарвис пока",
+                answer: "До свидания, сэр. Буду на связи, если понадоблюсь."
+            },
+            {
+                question: "джарвис активировать броню",
+                answer: "Подготовка боевой брони к активации. Процесс инициализации запущен."
+            },
+            {
+                question: "джарвис отчет о состоянии",
+                answer: "Предоставляю полный отчет: все системы функционируют в пределах нормы, уровень энергии 98%, внешних угроз не обнаружено."
             }
         ];
 
@@ -297,18 +473,42 @@
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const voiceBtn = document.getElementById('voiceBtn');
-        const clearBtn = document.getElementById('clearBtn');
-        const helpBtn = document.getElementById('helpBtn');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const voiceStatus = document.getElementById('voiceStatus');
+        const micIcon = document.getElementById('micIcon');
         const qaList = document.getElementById('qaList');
 
-        // Инициализация списка вопросов и ответов
+        let recognition;
+        let isListening = false;
+        let speechSynthesis = window.speechSynthesis;
+
+        // Настройка голоса для синтеза речи (максимально похожего на Джарвиса)
+        function getJarvisVoice() {
+            const voices = speechSynthesis.getVoices();
+            // Предпочтительные голоса, которые звучат более формально и технологично
+            const preferredVoices = [
+                'Google UK English Male',
+                'Microsoft David - English (United States)',
+                'Alex'
+            ];
+            
+            for (const voiceName of preferredVoices) {
+                const voice = voices.find(v => v.name === voiceName);
+                if (voice) return voice;
+            }
+            
+            // Если предпочтительные голоса не найдены, вернуть первый доступный мужской голос
+            return voices.find(voice => voice.lang.includes('en') && voice.name.includes('Male')) || voices[0];
+        }
+
+        // Инициализация списка команд
         function initQAList() {
             qaList.innerHTML = '';
             knowledgeBase.forEach(item => {
                 const qaItem = document.createElement('div');
                 qaItem.className = 'qa-item';
                 qaItem.innerHTML = `
-                    <div class="question">${item.question}</div>
+                    <div class="question">"${item.question}"</div>
                     <div class="answer">${typeof item.answer === 'function' ? item.answer() : item.answer}</div>
                 `;
                 qaList.appendChild(qaItem);
@@ -319,9 +519,47 @@
         function addMessage(text, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
-            messageDiv.textContent = text;
+            
+            if (!isUser) {
+                messageDiv.innerHTML = `JARVIS:<br>${text}`;
+            } else {
+                messageDiv.textContent = text;
+            }
+            
             chatArea.appendChild(messageDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // Произнесение текста голосом Джарвиса
+        function speakAsJarvis(text) {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            
+            // Даем время на загрузку голосов
+            setTimeout(() => {
+                const utterance = new SpeechSynthesisUtterance(text);
+                const jarvisVoice = getJarvisVoice();
+                
+                if (jarvisVoice) {
+                    utterance.voice = jarvisVoice;
+                }
+                
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9; // Немного медленнее для формальности
+                utterance.pitch = 0.8; // Чуть ниже тоном
+                utterance.volume = 1.0;
+                
+                utterance.onstart = function() {
+                    statusIndicator.textContent = "Джарвис говорит...";
+                };
+                
+                utterance.onend = function() {
+                    statusIndicator.textContent = "Система активирована. Ожидаю команд.";
+                };
+                
+                speechSynthesis.speak(utterance);
+            }, 100);
         }
 
         // Поиск ответа на вопрос
@@ -330,107 +568,42 @@
             
             // Поиск точного совпадения
             for (const item of knowledgeBase) {
-                if (normalizedQuestion === item.question.toLowerCase()) {
+                if (normalizedQuestion.includes(item.question.toLowerCase())) {
                     return typeof item.answer === 'function' ? item.answer() : item.answer;
                 }
             }
             
-            // Поиск частичного совпадения
-            for (const item of knowledgeBase) {
-                if (normalizedQuestion.includes(item.question.toLowerCase()) || 
-                    item.question.toLowerCase().includes(normalizedQuestion)) {
-                    return typeof item.answer === 'function' ? item.answer() : item.answer;
-                }
-            }
-            
-            // Ответ по умолчанию
-            return "Извините, я не знаю ответ на этот вопрос. Попробуйте задать другой вопрос.";
+            // Ответ по умолчанию в стиле Джарвиса
+            return "Извините, сэр, я не совсем понимаю ваш запрос. Можете переформулировать?";
         }
 
-        // Обработка отправки сообщения
-        function handleSendMessage() {
-            const question = userInput.value.trim();
-            if (question) {
-                addMessage(question, true);
-                userInput.value = '';
+        // Обработка вопроса от пользователя
+        function handleUserQuestion(question) {
+            if (!question.trim()) return;
+            
+            // Добавляем вопрос пользователя в чат
+            addMessage(question, true);
+            
+            // Находим ответ
+            const answer = findAnswer(question);
+            
+            // Добавляем ответ Джарвиса в чат
+            setTimeout(() => {
+                addMessage(answer);
                 
-                // Имитация задержки ответа
-                setTimeout(() => {
-                    const answer = findAnswer(question);
-                    addMessage(answer);
-                }, 800);
-            }
+                // Произносим ответ голосом Джарвиса
+                speakAsJarvis(answer);
+            }, 800);
         }
 
-        // Голосовой ввод
-        function initVoiceRecognition() {
+        // Инициализация распознавания речи
+        function initSpeechRecognition() {
             if (!('webkitSpeechRecognition' in window)) {
-                alert("Извините, ваш браузер не поддерживает голосовой ввод.");
-                return null;
+                statusIndicator.textContent = "Внимание: ваш браузер не поддерживает голосовой ввод";
+                voiceStatus.textContent = "Голосовая активация недоступна";
+                voiceBtn.disabled = true;
+                return;
             }
             
-            const recognition = new webkitSpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = 'ru-RU';
-            
-            recognition.onstart = function() {
-                voiceBtn.classList.add('listening');
-            };
-            
-            recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript;
-                userInput.value = transcript;
-                handleSendMessage();
-            };
-            
-            recognition.onerror = function(event) {
-                console.error('Ошибка распознавания голоса:', event.error);
-                voiceBtn.classList.remove('listening');
-            };
-            
-            recognition.onend = function() {
-                voiceBtn.classList.remove('listening');
-            };
-            
-            return recognition;
-        }
-
-        // Инициализация приложения
-        function initApp() {
-            // Инициализация списка вопросов и ответов
-            initQAList();
-            
-            // Инициализация голосового ввода
-            const recognition = initVoiceRecognition();
-            
-            // Обработчики событий
-            sendBtn.addEventListener('click', handleSendMessage);
-            
-            userInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    handleSendMessage();
-                }
-            });
-            
-            if (recognition) {
-                voiceBtn.addEventListener('click', function() {
-                    recognition.start();
-                });
-            }
-            
-            clearBtn.addEventListener('click', function() {
-                chatArea.innerHTML = '';
-                addMessage("Привет! Я ваш голосовой помощник. Задайте мне вопрос, и я постараюсь на него ответить.");
-            });
-            
-            helpBtn.addEventListener('click', function() {
-                addMessage("Вы можете задавать вопросы текстом или голосом. Для голосового ввода нажмите кнопку с микрофоном. Ниже на странице вы можете увидеть список вопросов, на которые я могу ответить.", false);
-            });
-        }
-
-        // Запуск приложения после загрузки страницы
-        window.addEventListener('DOMContentLoaded', initApp);
-    </script>
-</body>
-  </html>
+            recognition = new webkitSpeechRecognition();
+     
