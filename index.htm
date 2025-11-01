@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-2">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Джарвис - Голосовой помощник</title>
     <style>
@@ -20,35 +20,17 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            overflow-x: hidden;
         }
         
         .container {
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
-            background: rgba(10, 10, 40, 0.8);
+            background: rgba(10, 10, 40, 0.9);
             border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0, 150, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 150, 255, 0.4);
             overflow: hidden;
             margin-top: 20px;
-            border: 1px solid rgba(0, 150, 255, 0.2);
-            position: relative;
-        }
-        
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #0096ff, transparent);
-            animation: scanline 3s linear infinite;
-        }
-        
-        @keyframes scanline {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            border: 1px solid rgba(0, 150, 255, 0.3);
         }
         
         header {
@@ -56,32 +38,13 @@
             color: #e0f7ff;
             padding: 30px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #00aaff, #00ffaa, #00aaff, transparent);
+            border-bottom: 1px solid rgba(0, 150, 255, 0.3);
         }
         
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             text-shadow: 0 0 15px rgba(0, 150, 255, 0.7);
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            color: #a0e0ff;
         }
         
         .jarvis-logo {
@@ -99,11 +62,14 @@
             margin-bottom: 25px;
             font-size: 1.1rem;
             color: #80d0ff;
-            min-height: 30px;
-            padding: 10px;
-            background: rgba(0, 40, 80, 0.3);
+            padding: 15px;
+            background: rgba(0, 40, 80, 0.4);
             border-radius: 10px;
-            border: 1px solid rgba(0, 150, 255, 0.2);
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .voice-controls {
@@ -115,50 +81,19 @@
         }
         
         .voice-btn {
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: radial-gradient(circle, #003366, #001122);
-            border: 2px solid #0096ff;
+            border: 3px solid #0096ff;
             color: #e0f7ff;
-            font-size: 1.8rem;
+            font-size: 2rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
             box-shadow: 0 0 30px rgba(0, 150, 255, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .voice-btn::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(transparent, #00aaff, transparent 30%);
-            animation: rotate 3s linear infinite;
-        }
-        
-        .voice-btn::after {
-            content: '';
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #002244, #001122);
-        }
-        
-        .voice-btn span {
-            z-index: 1;
-            text-shadow: 0 0 10px rgba(0, 200, 255, 0.8);
-        }
-        
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         .voice-btn:hover {
@@ -170,47 +105,31 @@
             background: radial-gradient(circle, #004477, #002244);
             box-shadow: 0 0 50px rgba(0, 200, 255, 0.8);
             animation: pulse 1.5s infinite;
+            border-color: #00ffaa;
         }
         
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 150, 255, 0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(0, 200, 255, 0.8); }
-            100% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 150, 255, 0.5); }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         .chat-area {
-            height: 280px;
+            height: 250px;
             overflow-y: auto;
             border: 1px solid rgba(0, 150, 255, 0.3);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 25px;
             background: rgba(5, 15, 35, 0.6);
-            scrollbar-width: thin;
-            scrollbar-color: #0096ff #001133;
-        }
-        
-        .chat-area::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .chat-area::-webkit-scrollbar-track {
-            background: #001133;
-            border-radius: 10px;
-        }
-        
-        .chat-area::-webkit-scrollbar-thumb {
-            background: #0096ff;
-            border-radius: 10px;
         }
         
         .message {
-            margin-bottom: 18px;
-            padding: 15px 20px;
+            margin-bottom: 15px;
+            padding: 12px 18px;
             border-radius: 18px;
             max-width: 85%;
-            line-height: 1.5;
-            position: relative;
+            line-height: 1.4;
             animation: fadeIn 0.5s ease;
         }
         
@@ -224,8 +143,6 @@
             color: #e0f7ff;
             margin-left: auto;
             border-bottom-right-radius: 5px;
-            border: 1px solid rgba(0, 150, 255, 0.3);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         
         .assistant-message {
@@ -233,17 +150,6 @@
             color: #c0e0ff;
             margin-right: auto;
             border-bottom-left-radius: 5px;
-            border: 1px solid rgba(0, 150, 255, 0.2);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .assistant-message::before {
-            content: 'JARVIS:';
-            display: block;
-            font-size: 0.8rem;
-            color: #00aaff;
-            margin-bottom: 5px;
-            font-weight: bold;
         }
         
         .input-area {
@@ -261,12 +167,6 @@
             outline: none;
             background: rgba(10, 25, 50, 0.7);
             color: #e0f7ff;
-            transition: all 0.3s;
-        }
-        
-        input:focus {
-            border-color: #0096ff;
-            box-shadow: 0 0 0 2px rgba(0, 150, 255, 0.2);
         }
         
         input::placeholder {
@@ -282,89 +182,25 @@
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s;
-            border: 1px solid rgba(0, 150, 255, 0.3);
         }
         
         button:hover {
             background: linear-gradient(to right, #0055aa, #0077cc);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .info-section {
-            margin-top: 30px;
-            padding: 25px;
-            background: rgba(10, 20, 40, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 150, 255, 0.2);
-        }
-        
-        .info-section h2 {
-            color: #00aaff;
-            margin-bottom: 20px;
+        .permission-note {
             text-align: center;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+            color: #ff6b6b;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
         
-        .qa-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        
-        .qa-item {
+        .instructions {
             background: rgba(0, 30, 60, 0.5);
-            color: #c0e0ff;
             padding: 15px;
-            border-radius: 12px;
+            border-radius: 10px;
+            margin-top: 20px;
             border-left: 4px solid #0096ff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        .question {
-            font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            color: #80d0ff;
-        }
-        
-        .answer {
-            opacity: 0.9;
-            font-style: italic;
-        }
-        
-        footer {
-            margin-top: 30px;
-            text-align: center;
-            color: #80c0ff;
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                border-radius: 15px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .voice-btn {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .voice-btn::after {
-                width: 110px;
-                height: 110px;
-            }
-            
-            .qa-list {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -373,44 +209,46 @@
         <header>
             <div class="jarvis-logo">J.A.R.V.I.S.</div>
             <h1>Голосовой помощник</h1>
-            <p class="subtitle">Just A Rather Very Intelligent System</p>
+            <p>Just A Rather Very Intelligent System</p>
         </header>
         
         <div class="assistant-container">
             <div class="status-indicator" id="statusIndicator">
-                Система активирована. Все системы функционируют нормально.
+                Нажмите кнопку микрофона и разрешите доступ к микрофону
             </div>
             
             <div class="voice-controls">
                 <button class="voice-btn" id="voiceBtn">
                     <span id="micIcon">🎤</span>
                 </button>
-                <div id="voiceStatus">Голосовая активация отключена</div>
+                <div id="voiceStatus">Нажмите и говорите "Джарвис, ты здесь?"</div>
             </div>
             
             <div class="chat-area" id="chatArea">
                 <div class="message assistant-message">
-                    Добрый день, сэр. Я Джарвис, ваш личный помощник. Чем могу быть полезен?
+                    Здравствуйте, сэр. Я Джарвис. Нажмите кнопку микрофона, разрешите доступ и скажите "Джарвис, ты здесь?"
                 </div>
             </div>
             
             <div class="input-area">
-                <input type="text" id="userInput" placeholder="Введите ваш запрос...">
+                <input type="text" id="userInput" placeholder="Или введите команду текстом...">
                 <button id="sendBtn">Отправить</button>
+            </div>
+            
+            <div class="permission-note" id="permissionNote">
+                ⚠️ Если браузер не запрашивает разрешение, проверьте настройки микрофона
+            </div>
+            
+            <div class="instructions">
+                <h3>Как использовать:</h3>
+                <ol>
+                    <li>Нажмите кнопку микрофона 🎤</li>
+                    <li>Разрешите доступ к микрофону во всплывающем окне</li>
+                    <li>Говорите команды: "Джарвис, ты здесь?", "Джарвис, сколько времени?" и др.</li>
+                </ol>
             </div>
         </div>
     </div>
-    
-    <div class="info-section">
-        <h2>Доступные команды</h2>
-        <div class="qa-list" id="qaList">
-            <!-- Команды будут добавлены через JavaScript -->
-        </div>
-    </div>
-    
-    <footer>
-        <p>J.A.R.V.I.S. - Just A Rather Very Intelligent System &copy; 2024</p>
-    </footer>
 
     <script>
         // БАЗА ЗНАНИЙ ДЖАРВИСА
@@ -420,18 +258,26 @@
                 answer: "К вашим услугам, сэр."
             },
             {
-                question: "джарвис как дела",
-                answer: "Все системы функционируют в оптимальном режиме, сэр. Благодарю за проявленный интерес."
+                question: "джарвис",
+                answer: "Слушаю вас, сэр."
             },
             {
-                question: "джарвис сколько времени",
+                question: "привет",
+                answer: "Здравствуйте, сэр. Чем могу быть полезен?"
+            },
+            {
+                question: "как дела",
+                answer: "Все системы функционируют нормально, сэр. Благодарю за беспокойство."
+            },
+            {
+                question: "сколько времени",
                 answer: function() {
                     const now = new Date();
-                    return `Текущее время: ${now.getHours()} часов ${now.getMinutes()} минут, сэр.`;
+                    return `Сейчас ${now.getHours()} часов ${now.getMinutes()} минут, сэр.`;
                 }
             },
             {
-                question: "джарвис какая сегодня дата",
+                question: "какая сегодня дата",
                 answer: function() {
                     const now = new Date();
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -439,32 +285,16 @@
                 }
             },
             {
-                question: "джарвис что ты умеешь",
-                answer: "Я могу предоставить информацию о времени, дате, погоде, управлять системами вашего дома, осуществлять поиск в базе данных и многое другое. Что конкретно вас интересует, сэр?"
+                question: "что ты умеешь",
+                answer: "Я могу сообщать время и дату, отвечать на вопросы, управлять системами и многое другое. Что вас интересует, сэр?"
             },
             {
-                question: "джарвис запусти протокол",
-                answer: "Какой протокол вы хотите активировать, сэр?"
-            },
-            {
-                question: "джарвис статус систем",
-                answer: "Все основные системы функционируют в штатном режиме. Запас энергии на оптимальном уровне. Угроз не обнаружено."
-            },
-            {
-                question: "джарвис спасибо",
+                question: "спасибо",
                 answer: "Всегда к вашим услугам, сэр."
             },
             {
-                question: "джарвис пока",
-                answer: "До свидания, сэр. Буду на связи, если понадоблюсь."
-            },
-            {
-                question: "джарвис активировать броню",
-                answer: "Подготовка боевой брони к активации. Процесс инициализации запущен."
-            },
-            {
-                question: "джарвис отчет о состоянии",
-                answer: "Предоставляю полный отчет: все системы функционируют в пределах нормы, уровень энергии 98%, внешних угроз не обнаружено."
+                question: "пока",
+                answer: "До свидания, сэр. Буду на связи."
             }
         ];
 
@@ -476,134 +306,179 @@
         const statusIndicator = document.getElementById('statusIndicator');
         const voiceStatus = document.getElementById('voiceStatus');
         const micIcon = document.getElementById('micIcon');
-        const qaList = document.getElementById('qaList');
+        const permissionNote = document.getElementById('permissionNote');
 
         let recognition;
         let isListening = false;
-        let speechSynthesis = window.speechSynthesis;
 
-        // Настройка голоса для синтеза речи (максимально похожего на Джарвиса)
-        function getJarvisVoice() {
-            const voices = speechSynthesis.getVoices();
-            // Предпочтительные голоса, которые звучат более формально и технологично
-            const preferredVoices = [
-                'Google UK English Male',
-                'Microsoft David - English (United States)',
-                'Alex'
-            ];
-            
-            for (const voiceName of preferredVoices) {
-                const voice = voices.find(v => v.name === voiceName);
-                if (voice) return voice;
+        // Проверка поддержки браузером
+        function checkBrowserSupport() {
+            if (!('webkitSpeechRecognition' in window)) {
+                statusIndicator.innerHTML = "❌ Ваш браузер не поддерживает голосовой ввод<br>Рекомендуется использовать Chrome или Edge";
+                voiceBtn.disabled = true;
+                voiceStatus.textContent = "Голосовой ввод недоступен";
+                permissionNote.textContent = "⚠️ Используйте Chrome, Edge или Safari для голосового управления";
+                return false;
             }
-            
-            // Если предпочтительные голоса не найдены, вернуть первый доступный мужской голос
-            return voices.find(voice => voice.lang.includes('en') && voice.name.includes('Male')) || voices[0];
+            return true;
         }
 
-        // Инициализация списка команд
-        function initQAList() {
-            qaList.innerHTML = '';
-            knowledgeBase.forEach(item => {
-                const qaItem = document.createElement('div');
-                qaItem.className = 'qa-item';
-                qaItem.innerHTML = `
-                    <div class="question">"${item.question}"</div>
-                    <div class="answer">${typeof item.answer === 'function' ? item.answer() : item.answer}</div>
-                `;
-                qaList.appendChild(qaItem);
-            });
-        }
+        // Инициализация распознавания речи
+        function initSpeechRecognition() {
+            if (!checkBrowserSupport()) return;
 
-        // Добавление сообщения в чат
-        function addMessage(text, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
-            
-            if (!isUser) {
-                messageDiv.innerHTML = `JARVIS:<br>${text}`;
-            } else {
-                messageDiv.textContent = text;
-            }
-            
-            chatArea.appendChild(messageDiv);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'ru-RU';
 
-        // Произнесение текста голосом Джарвиса
-        function speakAsJarvis(text) {
-            if (speechSynthesis.speaking) {
-                speechSynthesis.cancel();
-            }
-            
-            // Даем время на загрузку голосов
-            setTimeout(() => {
-                const utterance = new SpeechSynthesisUtterance(text);
-                const jarvisVoice = getJarvisVoice();
+            recognition.onstart = function() {
+                console.log("Распознавание началось - должен запросить разрешение");
+                isListening = true;
+                voiceBtn.classList.add('listening');
+                voiceStatus.textContent = "🎤 Слушаю... Говорите сейчас!";
+                statusIndicator.textContent = "Распознавание речи активно - говорите";
+                micIcon.textContent = "🔴";
+                permissionNote.textContent = "✅ Микрофон активирован";
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                console.log("Распознано:", transcript);
+                voiceStatus.textContent = `Распознано: "${transcript}"`;
+                handleUserQuestion(transcript);
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Ошибка распознавания:', event.error);
                 
-                if (jarvisVoice) {
-                    utterance.voice = jarvisVoice;
+                if (event.error === 'not-allowed') {
+                    statusIndicator.innerHTML = "❌ Доступ к микрофону запрещен<br>Разрешите доступ в настройках браузера";
+                    permissionNote.innerHTML = "⚠️ Нажмите на значок 🔒 в адресной строке и разрешите доступ к микрофону";
+                } else if (event.error === 'audio-capture') {
+                    statusIndicator.textContent = "❌ Микрофон не найден";
+                    permissionNote.textContent = "⚠️ Проверьте подключение микрофона";
+                } else {
+                    statusIndicator.textContent = "❌ Ошибка распознавания речи";
                 }
                 
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9; // Немного медленнее для формальности
-                utterance.pitch = 0.8; // Чуть ниже тоном
-                utterance.volume = 1.0;
-                
-                utterance.onstart = function() {
-                    statusIndicator.textContent = "Джарвис говорит...";
-                };
-                
-                utterance.onend = function() {
-                    statusIndicator.textContent = "Система активирована. Ожидаю команд.";
-                };
-                
-                speechSynthesis.speak(utterance);
-            }, 100);
+                voiceStatus.textContent = "Ошибка - попробуйте еще раз";
+            };
+
+            recognition.onend = function() {
+                console.log("Распознавание завершено");
+                isListening = false;
+                voiceBtn.classList.remove('listening');
+                voiceStatus.textContent = "Нажмите и говорите";
+                statusIndicator.textContent = "Готов к работе";
+                micIcon.textContent = "🎤";
+            };
         }
 
-        // Поиск ответа на вопрос
+        // Голосовой ответ
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ru-RU';
+            utterance.rate = 0.9;
+            utterance.pitch = 0.8;
+            
+            // Пытаемся найти английский голос для аутентичности
+            const voices = speechSynthesis.getVoices();
+            const englishVoice = voices.find(voice => voice.lang.includes('en'));
+            if (englishVoice) {
+                utterance.voice = englishVoice;
+                utterance.lang = 'en-US';
+            }
+            
+            speechSynthesis.speak(utterance);
+        }
+
+        // Поиск ответа
         function findAnswer(question) {
             const normalizedQuestion = question.toLowerCase().trim();
             
-            // Поиск точного совпадения
             for (const item of knowledgeBase) {
                 if (normalizedQuestion.includes(item.question.toLowerCase())) {
                     return typeof item.answer === 'function' ? item.answer() : item.answer;
                 }
             }
             
-            // Ответ по умолчанию в стиле Джарвиса
-            return "Извините, сэр, я не совсем понимаю ваш запрос. Можете переформулировать?";
+            return "Извините, сэр, я не понял запрос. Попробуйте переформулировать.";
         }
 
-        // Обработка вопроса от пользователя
+        // Обработка вопроса
         function handleUserQuestion(question) {
             if (!question.trim()) return;
             
-            // Добавляем вопрос пользователя в чат
             addMessage(question, true);
             
-            // Находим ответ
-            const answer = findAnswer(question);
-            
-            // Добавляем ответ Джарвиса в чат
             setTimeout(() => {
+                const answer = findAnswer(question);
                 addMessage(answer);
-                
-                // Произносим ответ голосом Джарвиса
-                speakAsJarvis(answer);
+                speakText(answer);
             }, 800);
         }
 
-        // Инициализация распознавания речи
-        function initSpeechRecognition() {
-            if (!('webkitSpeechRecognition' in window)) {
-                statusIndicator.textContent = "Внимание: ваш браузер не поддерживает голосовой ввод";
-                voiceStatus.textContent = "Голосовая активация недоступна";
-                voiceBtn.disabled = true;
+        // Добавление сообщения в чат
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
+            messageDiv.textContent = text;
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // Запуск распознавания
+        function startRecognition() {
+            if (!recognition) {
+                statusIndicator.textContent = "❌ Распознавание не инициализировано";
                 return;
             }
             
-            recognition = new webkitSpeechRecognition();
-     
+            try {
+                recognition.start();
+                statusIndicator.textContent = "Запрос разрешения микрофона...";
+            } catch (error) {
+                console.error("Ошибка запуска:", error);
+                statusIndicator.textContent = "❌ Ошибка запуска распознавания";
+            }
+        }
+
+        // Инициализация при загрузке
+        function initApp() {
+            initSpeechRecognition();
+            
+            voiceBtn.addEventListener('click', function() {
+                if (isListening) {
+                    recognition.stop();
+                } else {
+                    startRecognition();
+                }
+            });
+            
+            sendBtn.addEventListener('click', function() {
+                const question = userInput.value.trim();
+                if (question) {
+                    handleUserQuestion(question);
+                    userInput.value = '';
+                }
+            });
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const question = userInput.value.trim();
+                    if (question) {
+                        handleUserQuestion(question);
+                        userInput.value = '';
+                    }
+                }
+            });
+        }
+
+        // Запуск при загрузке страницы
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
