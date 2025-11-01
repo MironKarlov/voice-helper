@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Голосовой помощник</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        header {
+            background: linear-gradient(to right, #4a6cf7, #6a11cb);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .assistant-container {
+            padding: 25px;
+        }
+        
+        .chat-area {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+        
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .assistant-message {
+            background-color: #f0f4ff;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+        }
+        
+        button {
+            background: linear-gradient(to right, #4a6cf7, #6a11cb);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .voice-btn {
+            background: linear-gradient(to right, #ff7eb3, #ff758c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            padding: 0;
+        }
+        
+        .voice-btn.listening {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 117, 140, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 117, 140, 0); }
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        
+        .info-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-section h2 {
+            color: #4a6cf7;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .qa-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .qa-item {
+            background-color: #f0f4ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #6a11cb;
+        }
+        
+        .question {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .answer {
+            color: #555;
+        }
+        
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .qa-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Голосовой помощник</h1>
+            <p class="subtitle">Задавайте вопросы голосом или текстом</p>
+        </header>
+        
+        <div class="assistant-container">
+            <div class="chat-area" id="chatArea">
+                <div class="message assistant-message">
+                    Привет! Я ваш голосовой помощник. Задайте мне вопрос, и я постараюсь на него ответить.
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Введите ваш вопрос...">
+                <button id="sendBtn">Отправить</button>
+                <button class="voice-btn" id="voiceBtn">🎤</button>
+            </div>
+            
+            <div class="controls">
+                <button id="clearBtn">Очистить чат</button>
+                <button id="helpBtn">Помощь</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="info-section">
+        <h2>Доступные вопросы и ответы</h2>
+        <div class="qa-list" id="qaList">
+            <!-- Вопросы и ответы будут добавлены через JavaScript -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>Голосовой помощник &copy; 2023</p>
+    </footer>
+
+    <script>
+        // БАЗА ЗНАНИЙ: ВОПРОСЫ И ОТВЕТЫ
+        // Вы можете добавлять, изменять или удалять вопросы и ответы здесь
+        const knowledgeBase = [
+            {
+                question: "привет",
+                answer: "Здравствуйте! Чем могу вам помочь?"
+            },
+            {
+                question: "как тебя зовут",
+                answer: "Я ваш голосовой помощник. Вы можете дать мне имя, если хотите!"
+            },
+            {
+                question: "сколько времени",
+                answer: function() {
+                    const now = new Date();
+                    return `Сейчас ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                }
+            },
+            {
+                question: "какая сегодня дата",
+                answer: function() {
+                    const now = new Date();
+                    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                    return `Сегодня ${now.toLocaleDateString('ru-RU', options)}`;
+                }
+            },
+            {
+                question: "джарвис ты здесь?",
+                answer: "к вашим услугам сэр"
+            },
+            {
+                question: "расскажи о погоде",
+                answer: "К сожалению, у меня нет доступа к актуальным данным о погоде. Но выглянув в окно, я вижу, что сегодня отличный день!"
+            },
+            {
+                question: "как дела",
+                answer: "У меня всё отлично! Готов помочь вам с любыми вопросами."
+            },
+            {
+                question: "спасибо",
+                answer: "Пожалуйста! Обращайтесь, если понадобится помощь."
+            },
+            {
+                question: "пока",
+                answer: "До свидания! Буду рад помочь вам снова."
+            }
+        ];
+
+        // Элементы DOM
+        const chatArea = document.getElementById('chatArea');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const helpBtn = document.getElementById('helpBtn');
+        const qaList = document.getElementById('qaList');
+
+        // Инициализация списка вопросов и ответов
+        function initQAList() {
+            qaList.innerHTML = '';
+            knowledgeBase.forEach(item => {
+                const qaItem = document.createElement('div');
+                qaItem.className = 'qa-item';
+                qaItem.innerHTML = `
+                    <div class="question">${item.question}</div>
+                    <div class="answer">${typeof item.answer === 'function' ? item.answer() : item.answer}</div>
+                `;
+                qaList.appendChild(qaItem);
+            });
+        }
+
+        // Добавление сообщения в чат
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
+            messageDiv.textContent = text;
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // Поиск ответа на вопрос
+        function findAnswer(question) {
+            const normalizedQuestion = question.toLowerCase().trim();
+            
+            // Поиск точного совпадения
+            for (const item of knowledgeBase) {
+                if (normalizedQuestion === item.question.toLowerCase()) {
+                    return typeof item.answer === 'function' ? item.answer() : item.answer;
+                }
+            }
+            
+            // Поиск частичного совпадения
+            for (const item of knowledgeBase) {
+                if (normalizedQuestion.includes(item.question.toLowerCase()) || 
+                    item.question.toLowerCase().includes(normalizedQuestion)) {
+                    return typeof item.answer === 'function' ? item.answer() : item.answer;
+                }
+            }
+            
+            // Ответ по умолчанию
+            return "Извините, я не знаю ответ на этот вопрос. Попробуйте задать другой вопрос.";
+        }
+
+        // Обработка отправки сообщения
+        function handleSendMessage() {
+            const question = userInput.value.trim();
+            if (question) {
+                addMessage(question, true);
+                userInput.value = '';
+                
+                // Имитация задержки ответа
+                setTimeout(() => {
+                    const answer = findAnswer(question);
+                    addMessage(answer);
+                }, 800);
+            }
+        }
+
+        // Голосовой ввод
+        function initVoiceRecognition() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert("Извините, ваш браузер не поддерживает голосовой ввод.");
+                return null;
+            }
+            
+            const recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'ru-RU';
+            
+            recognition.onstart = function() {
+                voiceBtn.classList.add('listening');
+            };
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                userInput.value = transcript;
+                handleSendMessage();
+            };
+            
+            recognition.onerror = function(event) {
+                console.error('Ошибка распознавания голоса:', event.error);
+                voiceBtn.classList.remove('listening');
+            };
+            
+            recognition.onend = function() {
+                voiceBtn.classList.remove('listening');
+            };
+            
+            return recognition;
+        }
+
+        // Инициализация приложения
+        function initApp() {
+            // Инициализация списка вопросов и ответов
+            initQAList();
+            
+            // Инициализация голосового ввода
+            const recognition = initVoiceRecognition();
+            
+            // Обработчики событий
+            sendBtn.addEventListener('click', handleSendMessage);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSendMessage();
+                }
+            });
+            
+            if (recognition) {
+                voiceBtn.addEventListener('click', function() {
+                    recognition.start();
+                });
+            }
+            
+            clearBtn.addEventListener('click', function() {
+                chatArea.innerHTML = '';
+                addMessage("Привет! Я ваш голосовой помощник. Задайте мне вопрос, и я постараюсь на него ответить.");
+            });
+            
+            helpBtn.addEventListener('click', function() {
+                addMessage("Вы можете задавать вопросы текстом или голосом. Для голосового ввода нажмите кнопку с микрофоном. Ниже на странице вы можете увидеть список вопросов, на которые я могу ответить.", false);
+            });
+        }
+
+        // Запуск приложения после загрузки страницы
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+  </html>
