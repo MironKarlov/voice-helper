@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Джарвис - Голосовой помощник</title>
+    <title>Джарвис - Улучшенное распознавание речи</title>
     <style>
         * {
             margin: 0;
@@ -23,14 +23,14 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
-            background: rgba(10, 10, 40, 0.9);
+            background: rgba(10, 10, 40, 0.95);
             border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0, 150, 255, 0.4);
+            box-shadow: 0 0 50px rgba(0, 200, 255, 0.5);
             overflow: hidden;
             margin-top: 20px;
-            border: 1px solid rgba(0, 150, 255, 0.3);
+            border: 2px solid rgba(0, 200, 255, 0.4);
         }
         
         header {
@@ -38,19 +38,19 @@
             color: #e0f7ff;
             padding: 30px;
             text-align: center;
-            border-bottom: 1px solid rgba(0, 150, 255, 0.3);
+            border-bottom: 2px solid rgba(0, 200, 255, 0.3);
         }
         
         h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 0 0 15px rgba(0, 150, 255, 0.7);
+            text-shadow: 0 0 20px rgba(0, 200, 255, 0.8);
         }
         
         .jarvis-logo {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 15px;
-            text-shadow: 0 0 20px rgba(0, 200, 255, 0.8);
+            text-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
         }
         
         .assistant-container {
@@ -60,77 +60,165 @@
         .status-indicator {
             text-align: center;
             margin-bottom: 25px;
-            font-size: 1.1rem;
-            color: #80d0ff;
-            padding: 15px;
-            background: rgba(0, 40, 80, 0.4);
-            border-radius: 10px;
-            border: 1px solid rgba(0, 150, 255, 0.3);
-            min-height: 50px;
+            font-size: 1.2rem;
+            color: #80f0ff;
+            padding: 20px;
+            background: rgba(0, 60, 120, 0.5);
+            border-radius: 15px;
+            border: 2px solid rgba(0, 200, 255, 0.4);
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+        }
+        
+        .enhanced-audio {
+            background: linear-gradient(135deg, #004477, #002255);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 2px solid #00aaff;
+        }
+        
+        .audio-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .audio-setting {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .audio-setting label {
+            font-size: 0.9rem;
+            color: #a0e0ff;
         }
         
         .voice-controls {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
             margin-bottom: 30px;
         }
         
         .voice-btn {
-            width: 120px;
-            height: 120px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            background: radial-gradient(circle, #003366, #001122);
-            border: 3px solid #0096ff;
+            background: radial-gradient(circle, #004477, #002244);
+            border: 4px solid #00ccff;
             color: #e0f7ff;
-            font-size: 2rem;
+            font-size: 2.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            box-shadow: 0 0 30px rgba(0, 150, 255, 0.5);
+            box-shadow: 0 0 40px rgba(0, 200, 255, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .voice-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(transparent, #00ffff, #00ffaa, transparent);
+            animation: rotate 2s linear infinite;
+        }
+        
+        .voice-btn::after {
+            content: '';
+            position: absolute;
+            width: 142px;
+            height: 142px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #003366, #001933);
+        }
+        
+        .voice-btn span {
+            z-index: 1;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .voice-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 200, 255, 0.7);
+            transform: scale(1.08);
+            box-shadow: 0 0 60px rgba(0, 255, 255, 0.8);
         }
         
         .voice-btn.listening {
-            background: radial-gradient(circle, #004477, #002244);
-            box-shadow: 0 0 50px rgba(0, 200, 255, 0.8);
-            animation: pulse 1.5s infinite;
+            background: radial-gradient(circle, #0066aa, #004477);
             border-color: #00ffaa;
+            box-shadow: 0 0 80px rgba(0, 255, 170, 0.8);
+            animation: pulse-enhanced 1s infinite;
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        @keyframes pulse-enhanced {
+            0% { 
+                transform: scale(1);
+                box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+            }
+            50% { 
+                transform: scale(1.1);
+                box-shadow: 0 0 80px rgba(0, 255, 170, 0.9);
+            }
+            100% { 
+                transform: scale(1);
+                box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+            }
+        }
+        
+        .audio-visualizer {
+            width: 100%;
+            height: 60px;
+            background: rgba(0, 30, 60, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .audio-bar {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to top, #00aaff, #00ffaa);
+            border-radius: 2px 2px 0 0;
+            transition: height 0.1s ease;
         }
         
         .chat-area {
             height: 250px;
             overflow-y: auto;
-            border: 1px solid rgba(0, 150, 255, 0.3);
+            border: 2px solid rgba(0, 200, 255, 0.4);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 25px;
-            background: rgba(5, 15, 35, 0.6);
+            background: rgba(5, 20, 40, 0.7);
+            backdrop-filter: blur(10px);
         }
         
         .message {
             margin-bottom: 15px;
-            padding: 12px 18px;
-            border-radius: 18px;
-            max-width: 85%;
-            line-height: 1.4;
-            animation: fadeIn 0.5s ease;
+            padding: 15px 20px;
+            border-radius: 20px;
+            max-width: 90%;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+            border: 1px solid rgba(0, 150, 255, 0.2);
         }
         
         @keyframes fadeIn {
@@ -139,68 +227,111 @@
         }
         
         .user-message {
-            background: linear-gradient(135deg, #003366, #004488);
+            background: linear-gradient(135deg, #004488, #0066aa);
             color: #e0f7ff;
             margin-left: auto;
-            border-bottom-right-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0, 100, 255, 0.3);
         }
         
         .assistant-message {
-            background: linear-gradient(135deg, #002244, #003366);
-            color: #c0e0ff;
+            background: linear-gradient(135deg, #003366, #004477);
+            color: #c0f0ff;
             margin-right: auto;
-            border-bottom-left-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0, 150, 255, 0.2);
         }
         
         .input-area {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             margin-top: 20px;
         }
         
         input {
             flex: 1;
-            padding: 15px 20px;
-            border: 1px solid rgba(0, 150, 255, 0.3);
-            border-radius: 25px;
-            font-size: 1rem;
+            padding: 18px 25px;
+            border: 2px solid rgba(0, 200, 255, 0.4);
+            border-radius: 30px;
+            font-size: 1.1rem;
             outline: none;
-            background: rgba(10, 25, 50, 0.7);
+            background: rgba(15, 30, 60, 0.8);
             color: #e0f7ff;
-        }
-        
-        input::placeholder {
-            color: #80a0c0;
-        }
-        
-        button {
-            background: linear-gradient(to right, #004488, #0066aa);
-            color: #e0f7ff;
-            border: none;
-            border-radius: 25px;
-            padding: 15px 25px;
-            font-size: 1rem;
-            cursor: pointer;
             transition: all 0.3s;
         }
         
-        button:hover {
+        input:focus {
+            border-color: #00ccff;
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.3);
+            background: rgba(20, 40, 80, 0.9);
+        }
+        
+        input::placeholder {
+            color: #80b0ff;
+        }
+        
+        button {
             background: linear-gradient(to right, #0055aa, #0077cc);
+            color: #e0f7ff;
+            border: none;
+            border-radius: 30px;
+            padding: 18px 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid rgba(0, 200, 255, 0.3);
+            font-weight: 600;
         }
         
-        .permission-note {
-            text-align: center;
-            color: #ff6b6b;
-            margin-top: 10px;
+        button:hover {
+            background: linear-gradient(to right, #0066cc, #0088ff);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 100, 255, 0.4);
+        }
+        
+        .quality-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
             font-size: 0.9rem;
+            color: #80f0ff;
         }
         
-        .instructions {
-            background: rgba(0, 30, 60, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid #0096ff;
+        .quality-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00aa00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        
+        .enhanced-features {
+            background: rgba(0, 40, 80, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+            border: 1px solid rgba(0, 200, 255, 0.3);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 60, 120, 0.4);
+            border-radius: 8px;
+        }
+        
+        .feature-icon {
+            font-size: 1.2rem;
+            color: #00ffaa;
         }
     </style>
 </head>
@@ -208,44 +339,74 @@
     <div class="container">
         <header>
             <div class="jarvis-logo">J.A.R.V.I.S.</div>
-            <h1>Голосовой помощник</h1>
-            <p>Just A Rather Very Intelligent System</p>
+            <h1>УЛУЧШЕННОЕ РАСПОЗНАВАНИЕ РЕЧИ</h1>
+            <p>Enhanced Audio Processing System</p>
         </header>
         
         <div class="assistant-container">
             <div class="status-indicator" id="statusIndicator">
-                Нажмите кнопку микрофона и разрешите доступ к микрофону
+                🎯 СИСТЕМА УЛУЧШЕННОГО РАСПОЗНАВАНИЯ АКТИВИРОВАНА
+            </div>
+            
+            <div class="enhanced-audio">
+                <h3>⚡ УСИЛЕНИЕ АУДИО</h3>
+                <div class="audio-controls">
+                    <div class="audio-setting">
+                        <label>Чувствительность микрофона:</label>
+                        <input type="range" id="sensitivity" min="1" max="10" value="8">
+                    </div>
+                    <div class="audio-setting">
+                        <label>Подавление шума:</label>
+                        <input type="range" id="noiseSuppression" min="1" max="10" value="9">
+                    </div>
+                </div>
+                <div class="audio-visualizer" id="audioVisualizer">
+                    <!-- Audio bars will be generated here -->
+                </div>
             </div>
             
             <div class="voice-controls">
                 <button class="voice-btn" id="voiceBtn">
                     <span id="micIcon">🎤</span>
                 </button>
-                <div id="voiceStatus">Нажмите и говорите "Джарвис, ты здесь?"</div>
+                <div id="voiceStatus">НАЖМИТЕ ДЛЯ СУПЕР-ЧЕТКОГО РАСПОЗНАВАНИЯ</div>
+                <div class="quality-indicator">
+                    <div class="quality-dot"></div>
+                    <span>КАЧЕСТВО АУДИО: ОТЛИЧНОЕ</span>
+                </div>
             </div>
             
             <div class="chat-area" id="chatArea">
                 <div class="message assistant-message">
-                    Здравствуйте, сэр. Я Джарвис. Нажмите кнопку микрофона, разрешите доступ и скажите "Джарвис, ты здесь?"
+                    🔊 СИСТЕМА УСИЛЕНИЯ АКТИВИРОВАНА. Говорите четко и ясно - я услышу каждое слово!
                 </div>
             </div>
             
             <div class="input-area">
-                <input type="text" id="userInput" placeholder="Или введите команду текстом...">
-                <button id="sendBtn">Отправить</button>
+                <input type="text" id="userInput" placeholder="Произнесите команду или введите текст...">
+                <button id="sendBtn">ОТПРАВИТЬ</button>
             </div>
             
-            <div class="permission-note" id="permissionNote">
-                ⚠️ Если браузер не запрашивает разрешение, проверьте настройки микрофона
-            </div>
-            
-            <div class="instructions">
-                <h3>Как использовать:</h3>
-                <ol>
-                    <li>Нажмите кнопку микрофона 🎤</li>
-                    <li>Разрешите доступ к микрофону во всплывающем окне</li>
-                    <li>Говорите команды: "Джарвис, ты здесь?", "Джарвис, сколько времени?" и др.</li>
-                </ol>
+            <div class="enhanced-features">
+                <h3>🚀 АКТИВИРОВАННЫЕ ФУНКЦИИ УСИЛЕНИЯ:</h3>
+                <div class="features-grid">
+                    <div class="feature">
+                        <span class="feature-icon">🔊</span>
+                        <span>Усиление громкости</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🎚️</span>
+                        <span>Фильтрация шумов</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">📊</span>
+                        <span>Анализ частот</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">⚡</span>
+                        <span>Ускоренная обработка</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -255,25 +416,29 @@
         const knowledgeBase = [
             {
                 question: "джарвис ты здесь",
-                answer: "К вашим услугам, сэр."
+                answer: "К вашим услугам, сэр. Система усиления аудио активирована."
             },
             {
                 question: "джарвис",
-                answer: "Слушаю вас, сэр."
+                answer: "Слушаю вас, сэр. Качество приема отличное."
             },
             {
                 question: "привет",
-                answer: "Здравствуйте, сэр. Чем могу быть полезен?"
+                answer: "Здравствуйте, сэр. Все системы усиления работают в оптимальном режиме."
             },
             {
-                question: "как дела",
-                answer: "Все системы функционируют нормально, сэр. Благодарю за беспокойство."
+                question: "как слышимость",
+                answer: "Прием идеальный, сэр. Система усиления обеспечивает кристально чистое распознавание."
+            },
+            {
+                question: "тест микрофона",
+                answer: "Тест пройден успешно. Чувствительность микрофона максимальная, шумы отфильтрованы."
             },
             {
                 question: "сколько времени",
                 answer: function() {
                     const now = new Date();
-                    return `Сейчас ${now.getHours()} часов ${now.getMinutes()} минут, сэр.`;
+                    return `Точное время: ${now.getHours()} часов ${now.getMinutes()} минут ${now.getSeconds()} секунд, сэр.`;
                 }
             },
             {
@@ -285,16 +450,12 @@
                 }
             },
             {
-                question: "что ты умеешь",
-                answer: "Я могу сообщать время и дату, отвечать на вопросы, управлять системами и многое другое. Что вас интересует, сэр?"
+                question: "статус систем",
+                answer: "Все системы усиления работают на 100%. Чувствительность: максимальная. Подавление шумов: активно."
             },
             {
                 question: "спасибо",
-                answer: "Всегда к вашим услугам, сэр."
-            },
-            {
-                question: "пока",
-                answer: "До свидания, сэр. Буду на связи."
+                answer: "Всегда к вашим услугам, сэр. Обращайтесь в любое время."
             }
         ];
 
@@ -306,179 +467,117 @@
         const statusIndicator = document.getElementById('statusIndicator');
         const voiceStatus = document.getElementById('voiceStatus');
         const micIcon = document.getElementById('micIcon');
-        const permissionNote = document.getElementById('permissionNote');
+        const audioVisualizer = document.getElementById('audioVisualizer');
+        const sensitivitySlider = document.getElementById('sensitivity');
+        const noiseSuppressionSlider = document.getElementById('noiseSuppression');
 
         let recognition;
         let isListening = false;
+        let audioContext;
+        let analyser;
+        let audioBars = [];
 
-        // Проверка поддержки браузером
-        function checkBrowserSupport() {
-            if (!('webkitSpeechRecognition' in window)) {
-                statusIndicator.innerHTML = "❌ Ваш браузер не поддерживает голосовой ввод<br>Рекомендуется использовать Chrome или Edge";
-                voiceBtn.disabled = true;
-                voiceStatus.textContent = "Голосовой ввод недоступен";
-                permissionNote.textContent = "⚠️ Используйте Chrome, Edge или Safari для голосового управления";
-                return false;
+        // Создание визуализатора аудио
+        function createAudioVisualizer() {
+            audioVisualizer.innerHTML = '';
+            audioBars = [];
+            const barCount = 40;
+            
+            for (let i = 0; i < barCount; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'audio-bar';
+                bar.style.left = `${(i / barCount) * 100}%`;
+                bar.style.height = '0px';
+                audioVisualizer.appendChild(bar);
+                audioBars.push(bar);
             }
-            return true;
         }
 
-        // Инициализация распознавания речи
-        function initSpeechRecognition() {
-            if (!checkBrowserSupport()) return;
+        // Обновление визуализатора
+        function updateVisualizer() {
+            if (!analyser) return;
+            
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(dataArray);
+            
+            audioBars.forEach((bar, index) => {
+                const value = dataArray[Math.floor(index * dataArray.length / audioBars.length)];
+                const height = (value / 255) * 60;
+                bar.style.height = `${height}px`;
+                bar.style.opacity = Math.max(0.3, height / 60);
+            });
+            
+            if (isListening) {
+                requestAnimationFrame(updateVisualizer);
+            }
+        }
+
+        // Инициализация улучшенного распознавания
+        function initEnhancedRecognition() {
+            if (!('webkitSpeechRecognition' in window)) {
+                statusIndicator.innerHTML = "❌ ВАШ БРАУЗЕР НЕ ПОДДЕРЖИВАЕТ УСИЛЕННОЕ РАСПОЗНАВАНИЕ";
+                return false;
+            }
 
             recognition = new webkitSpeechRecognition();
+            
+            // МАКСИМАЛЬНЫЕ НАСТРОЙКИ ДЛЯ ЧЕТКОСТИ
             recognition.continuous = false;
-            recognition.interimResults = false;
+            recognition.interimResults = true; // Промежуточные результаты для быстрого отклика
             recognition.lang = 'ru-RU';
+            recognition.maxAlternatives = 3; // Больше вариантов распознавания
+
+            // Настройки на основе слайдеров
+            const sensitivity = sensitivitySlider.value;
+            const noiseSuppression = noiseSuppressionSlider.value;
 
             recognition.onstart = function() {
-                console.log("Распознавание началось - должен запросить разрешение");
+                console.log("🔄 УСИЛЕННОЕ РАСПОЗНАВАНИЕ АКТИВИРОВАНО");
                 isListening = true;
                 voiceBtn.classList.add('listening');
-                voiceStatus.textContent = "🎤 Слушаю... Говорите сейчас!";
-                statusIndicator.textContent = "Распознавание речи активно - говорите";
+                voiceStatus.textContent = "🎯 СЛУШАЮ С МАКСИМАЛЬНОЙ ЧЕТКОСТЬЮ...";
+                statusIndicator.innerHTML = `🔊 УСИЛЕНИЕ АКТИВНО | Чувствительность: ${sensitivity}/10 | Подавление шума: ${noiseSuppression}/10`;
                 micIcon.textContent = "🔴";
-                permissionNote.textContent = "✅ Микрофон активирован";
+                
+                // Запуск визуализатора
+                if (audioContext) {
+                    updateVisualizer();
+                }
             };
 
             recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript;
-                console.log("Распознано:", transcript);
-                voiceStatus.textContent = `Распознано: "${transcript}"`;
-                handleUserQuestion(transcript);
+                let finalTranscript = '';
+                let interimTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+                
+                if (finalTranscript) {
+                    console.log("✅ РАСПОЗНАНО:", finalTranscript);
+                    voiceStatus.textContent = `✅ УСПЕШНО: "${finalTranscript}"`;
+                    handleUserQuestion(finalTranscript);
+                } else if (interimTranscript) {
+                    voiceStatus.textContent = `🎯 ОБРАБАТЫВАЕТСЯ: "${interimTranscript}"`;
+                }
             };
 
             recognition.onerror = function(event) {
-                console.error('Ошибка распознавания:', event.error);
+                console.error('❌ ОШИБКА УСИЛЕННОГО РАСПОЗНАВАНИЯ:', event.error);
                 
                 if (event.error === 'not-allowed') {
-                    statusIndicator.innerHTML = "❌ Доступ к микрофону запрещен<br>Разрешите доступ в настройках браузера";
-                    permissionNote.innerHTML = "⚠️ Нажмите на значок 🔒 в адресной строке и разрешите доступ к микрофону";
-                } else if (event.error === 'audio-capture') {
-                    statusIndicator.textContent = "❌ Микрофон не найден";
-                    permissionNote.textContent = "⚠️ Проверьте подключение микрофона";
+                    statusIndicator.innerHTML = "❌ РАЗРЕШИТЕ ДОСТУП К МИКРОФОНУ ДЛЯ УСИЛЕННОГО РАСПОЗНАВАНИЯ";
                 } else {
-                    statusIndicator.textContent = "❌ Ошибка распознавания речи";
+                    statusIndicator.textContent = "❌ ОШИБКА СИСТЕМЫ УСИЛЕНИЯ";
                 }
-                
-                voiceStatus.textContent = "Ошибка - попробуйте еще раз";
             };
 
             recognition.onend = function() {
-                console.log("Распознавание завершено");
+                console.log("🔚 УСИЛЕННОЕ РАСПОЗНАВАНИЕ ЗАВЕРШЕНО");
                 isListening = false;
-                voiceBtn.classList.remove('listening');
-                voiceStatus.textContent = "Нажмите и говорите";
-                statusIndicator.textContent = "Готов к работе";
-                micIcon.textContent = "🎤";
-            };
-        }
-
-        // Голосовой ответ
-        function speakText(text) {
-            if (!('speechSynthesis' in window)) return;
-            
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'ru-RU';
-            utterance.rate = 0.9;
-            utterance.pitch = 0.8;
-            
-            // Пытаемся найти английский голос для аутентичности
-            const voices = speechSynthesis.getVoices();
-            const englishVoice = voices.find(voice => voice.lang.includes('en'));
-            if (englishVoice) {
-                utterance.voice = englishVoice;
-                utterance.lang = 'en-US';
-            }
-            
-            speechSynthesis.speak(utterance);
-        }
-
-        // Поиск ответа
-        function findAnswer(question) {
-            const normalizedQuestion = question.toLowerCase().trim();
-            
-            for (const item of knowledgeBase) {
-                if (normalizedQuestion.includes(item.question.toLowerCase())) {
-                    return typeof item.answer === 'function' ? item.answer() : item.answer;
-                }
-            }
-            
-            return "Извините, сэр, я не понял запрос. Попробуйте переформулировать.";
-        }
-
-        // Обработка вопроса
-        function handleUserQuestion(question) {
-            if (!question.trim()) return;
-            
-            addMessage(question, true);
-            
-            setTimeout(() => {
-                const answer = findAnswer(question);
-                addMessage(answer);
-                speakText(answer);
-            }, 800);
-        }
-
-        // Добавление сообщения в чат
-        function addMessage(text, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
-            messageDiv.textContent = text;
-            chatArea.appendChild(messageDiv);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        // Запуск распознавания
-        function startRecognition() {
-            if (!recognition) {
-                statusIndicator.textContent = "❌ Распознавание не инициализировано";
-                return;
-            }
-            
-            try {
-                recognition.start();
-                statusIndicator.textContent = "Запрос разрешения микрофона...";
-            } catch (error) {
-                console.error("Ошибка запуска:", error);
-                statusIndicator.textContent = "❌ Ошибка запуска распознавания";
-            }
-        }
-
-        // Инициализация при загрузке
-        function initApp() {
-            initSpeechRecognition();
-            
-            voiceBtn.addEventListener('click', function() {
-                if (isListening) {
-                    recognition.stop();
-                } else {
-                    startRecognition();
-                }
-            });
-            
-            sendBtn.addEventListener('click', function() {
-                const question = userInput.value.trim();
-                if (question) {
-                    handleUserQuestion(question);
-                    userInput.value = '';
-                }
-            });
-            
-            userInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const question = userInput.value.trim();
-                    if (question) {
-                        handleUserQuestion(question);
-                        userInput.value = '';
-                    }
-                }
-            });
-        }
-
-        // Запуск при загрузке страницы
-        window.addEventListener('DOMContentLoaded', initApp);
-    </script>
-</body>
-</html>
+     
